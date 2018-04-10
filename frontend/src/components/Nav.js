@@ -8,6 +8,7 @@ export default function Nav(props) {
   };
   return (
     <Navbar
+      className="teal lighten-2"
       brand={
         <span>
           <Icon>book</Icon> Readable

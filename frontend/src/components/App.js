@@ -3,14 +3,19 @@ import { Route } from "react-router-dom";
 import { connect } from "react-redux";
 import { Snackbar } from "react-redux-snackbar";
 
-import { fetchCategories } from "../utils/api_thunk_wrapper.js";
+import {
+  getCategories,
+  getPostsAndComments
+} from "../utils/api_thunk_wrapper.js";
 
 import "./App.css";
 import Nav from "./Nav";
+import HomeView from "./HomeView";
 
 class App extends Component {
   componentDidMount() {
-    this.props.dispatch(fetchCategories());
+    this.props.dispatch(getCategories());
+    this.props.dispatch(getPostsAndComments());
   }
 
   render() {
@@ -18,7 +23,18 @@ class App extends Component {
       <div className="App">
         <Snackbar />
         <Nav category={this.props.category} />
-        <Route exact path="/" render={() => <div></div>} />
+        <Route
+          exact
+          path="/"
+          render={() => (
+            <HomeView
+              dispatch={this.props.dispatch}
+              categories={this.props.category}
+              posts={this.props.post}
+              comments={this.props.comment}
+            />
+          )}
+        />
       </div>
     );
   }
@@ -28,7 +44,9 @@ function mapStateToProps({ category, post, comment }) {
   return {
     category: Object.keys(category).map(name => ({
       ...category[name]
-    }))
+    })),
+    post,
+    comment
   };
 }
 
