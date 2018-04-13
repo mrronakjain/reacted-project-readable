@@ -1,4 +1,12 @@
-import { ON_GET_POSTS } from "../actions";
+import {
+  ON_GET_POSTS,
+  SORT_BY_UP_VOTE_POSTS,
+  SORT_BY_DOWN_VOTE_POSTS,
+  SORT_BY_ASC_TIME_POSTS,
+  SORT_BY_DESC_TIME_POSTS
+} from "../actions";
+
+import sortBy from "sort-by";
 
 /**
  * Post
@@ -32,6 +40,14 @@ function post(state = [], action) {
         return obj;
       }, []);
       return state.concat(result);
+    case SORT_BY_UP_VOTE_POSTS:
+      return [...state.sort(sortBy("voteScore"))];
+    case SORT_BY_DOWN_VOTE_POSTS:
+      return [...state.sort(sortBy("-voteScore"))];
+    case SORT_BY_ASC_TIME_POSTS:
+      return [...state.sort(sortBy("timestamp"))];
+    case SORT_BY_DESC_TIME_POSTS:
+      return [...state.sort(sortBy("-timestamp"))];
     default:
       return state;
   }
