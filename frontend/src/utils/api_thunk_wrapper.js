@@ -23,3 +23,5 @@ export const getAllComments = posts => dispatch =>
 
 export const getComments = id => dispatch =>
   API.getAllComments(id).then(comments => dispatch(onGetComments(comments)));
+
+export const addPost = post => dispatch => API.createPost(post);

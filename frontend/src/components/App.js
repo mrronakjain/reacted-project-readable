@@ -11,6 +11,7 @@ import {
 import "./App.css";
 import Nav from "./Nav";
 import HomeView from "./HomeView";
+import AddPost from "./AddPost";
 
 class App extends Component {
   componentDidMount() {
@@ -32,6 +33,15 @@ class App extends Component {
               categories={this.props.category}
               posts={this.props.post}
               comments={this.props.comment}
+            />
+          )}
+        />
+        <Route
+          path="/addPost"
+          render={({ match }) => (
+            <AddPost
+              dispatch={this.props.dispatch}
+              categories={this.props.category}
             />
           )}
         />

@@ -15,44 +15,57 @@ class AllPosts extends Component {
     return (
       <div>
         <hr />
-        <div className="btn-group pull-right">
-          <Dropdown
-            trigger={
-              <Button>
-                Sort By <Icon right>arrow_drop_down</Icon>
-              </Button>
-            }
-          >
-            <NavItem
-              onClick={() =>
-                this.props.dispatch(sortByUpVotePosts(this.props.posts))
+        <Row>
+          <Col s={6} m={6} l={9}>
+            <a href={`/addPost`} className="btn btn-black" role="button">
+              Add post{" "}
+              <Icon right className="hide-on-small-only">
+                add_box
+              </Icon>
+            </a>
+          </Col>
+          <div className="col s6 m6 l3 right-align">
+            <Dropdown
+              trigger={
+                <Button>
+                  Sort By{" "}
+                  <Icon right className="hide-on-small-only">
+                    arrow_drop_down
+                  </Icon>
+                </Button>
               }
             >
-              UpVotes
-            </NavItem>
-            <NavItem
-              onClick={() =>
-                this.props.dispatch(sortByDownVotePosts(this.props.posts))
-              }
-            >
-              DownVotes
-            </NavItem>
-            <NavItem
-              onClick={() =>
-                this.props.dispatch(sortByAscTimePosts(this.props.posts))
-              }
-            >
-              Asc Time
-            </NavItem>
-            <NavItem
-              onClick={() =>
-                this.props.dispatch(sortByDescTimePosts(this.props.posts))
-              }
-            >
-              Desc Time
-            </NavItem>
-          </Dropdown>
-        </div>
+              <NavItem
+                onClick={() =>
+                  this.props.dispatch(sortByUpVotePosts(this.props.posts))
+                }
+              >
+                UpVotes
+              </NavItem>
+              <NavItem
+                onClick={() =>
+                  this.props.dispatch(sortByDownVotePosts(this.props.posts))
+                }
+              >
+                DownVotes
+              </NavItem>
+              <NavItem
+                onClick={() =>
+                  this.props.dispatch(sortByAscTimePosts(this.props.posts))
+                }
+              >
+                Asc Time
+              </NavItem>
+              <NavItem
+                onClick={() =>
+                  this.props.dispatch(sortByDescTimePosts(this.props.posts))
+                }
+              >
+                Desc Time
+              </NavItem>
+            </Dropdown>
+          </div>
+        </Row>
         <hr />
         <ul>
           {this.props.posts &&

@@ -9,13 +9,13 @@ export default function AllCategories(props) {
       </h3>
       <hr />
       {props.categories.map(category => (
-        <Col m={4} s={6} key={category.name}>
+        <Col l={4} m={6} s={12} key={category.name}>
           <Card
             className="teal lighten-3"
             textClassName="white-text"
             title={category.name}
           >
-            <Row>
+            <Row className="center-align">
               <Col m={6} s={6}>
                 <a
                   href={`/${category.name}/posts`}
