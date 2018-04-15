@@ -10,6 +10,8 @@ export const EDIT_POST = "EDIT_POST";
 export const DELETE_POST = "DELETE_POST";
 export const UP_VOTE_POST = "UP_VOTE_POST";
 export const DOWN_VOTE_POST = "DOWN_VOTE_POST";
+export const EDIT_BODY_POST = "EDIT_BODY_POST";
+export const EDIT_TITLE_POST = "EDIT_TITLE_POST";
 
 export function onGetCategories(categories) {
   return {
@@ -124,5 +126,19 @@ export function downVotePost({ id }) {
   return {
     type: DOWN_VOTE_POST,
     id
+  };
+}
+
+export function editBodyPost({ body }) {
+  return {
+    type: EDIT_BODY_POST,
+    body
+  };
+}
+
+export function editTitlePost({ title }) {
+  return {
+    type: EDIT_TITLE_POST,
+    title
   };
 }

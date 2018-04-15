@@ -41,3 +41,5 @@ export const onDownVotePost = id => dispatch =>
 
 export const onDeletePost = id => dispatch =>
   API.deletePost(id).then(() => dispatch(deletePost({ id })));
+
+export const editPost = (id, post) => dispatch => API.editPost(id, post);
