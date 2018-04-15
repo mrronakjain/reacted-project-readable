@@ -13,7 +13,7 @@ class CategoryPosts extends Component {
             <Icon small>list</Icon> Posts
           </h3>
           <h3 className="teal-text lighten-2">
-            <Icon small>turned_in</Icon> {this.props.categoryName}
+            <Icon small left>turned_in</Icon> {this.props.categoryName}
           </h3>
           <AllPosts
             dispatch={this.props.dispatch}

@@ -14,6 +14,7 @@ import HomeView from "./HomeView";
 import AddPost from "./AddPost";
 import EditPost from "./EditPost";
 import CategoryPosts from "./CategoryPosts";
+import PostDetails from "./PostDetails";
 
 class App extends Component {
   componentDidMount() {
@@ -55,6 +56,17 @@ class App extends Component {
           path="/:category/posts"
           render={({ match }) => (
             <CategoryPosts categoryName={match.params.category} />
+          )}
+        />
+        <Route
+          path="/:category/:id"
+          render={({ match }) => (
+            <PostDetails
+              dispatch={this.props.dispatch}
+              postId={match.params.id}
+              post={this.props.post}
+              comment={this.props.comment}
+            />
           )}
         />
       </div>
