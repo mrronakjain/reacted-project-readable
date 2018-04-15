@@ -5,6 +5,11 @@ export const SORT_BY_UP_VOTE_POSTS = "SORT_BY_UP_VOTE_POSTS";
 export const SORT_BY_DOWN_VOTE_POSTS = "SORT_BY_DOWN_VOTE_POSTS";
 export const SORT_BY_ASC_TIME_POSTS = "SORT_BY_ASC_TIME_POSTS";
 export const SORT_BY_DESC_TIME_POSTS = "SORT_BY_DESC_TIME";
+export const ADD_POST = "ADD_POST";
+export const EDIT_POST = "EDIT_POST";
+export const DELETE_POST = "DELETE_POST";
+export const UP_VOTE_POST = "UP_VOTE_POST";
+export const DOWN_VOTE_POST = "DOWN_VOTE_POST";
 
 export function onGetCategories(categories) {
   return {
@@ -52,5 +57,72 @@ export function sortByDescTimePosts(posts) {
   return {
     type: SORT_BY_DESC_TIME_POSTS,
     posts
+  };
+}
+
+export function addPost({
+  id,
+  timestamp,
+  title,
+  body,
+  author,
+  category,
+  voteScore,
+  deleted
+}) {
+  return {
+    type: ADD_POST,
+    id,
+    timestamp,
+    title,
+    body,
+    author,
+    category,
+    voteScore,
+    deleted
+  };
+}
+
+export function editPost({
+  id,
+  timestamp,
+  title,
+  body,
+  author,
+  category,
+  voteScore,
+  deleted
+}) {
+  return {
+    type: EDIT_POST,
+    id,
+    timestamp,
+    title,
+    body,
+    author,
+    category,
+    voteScore,
+    deleted
+  };
+}
+
+export function deletePost({ id }) {
+  return {
+    type: DELETE_POST,
+    id
+  };
+}
+
+export function upVotePost({ id }) {
+  return {
+    type: UP_VOTE_POST,
+    id
+  };
+}
+
+export function downVotePost({ id }) {
+  return {
+    type: DOWN_VOTE_POST,
+    id
   };
 }

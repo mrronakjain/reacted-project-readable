@@ -1,6 +1,13 @@
 import * as API from "../utils/api";
 
-import { onGetCategories, onGetPosts, onGetComments } from "../actions";
+import {
+  onGetCategories,
+  onGetPosts,
+  onGetComments,
+  upVotePost,
+  downVotePost,
+  deletePost
+} from "../actions";
 
 export const getCategories = () => dispatch =>
   API.getAllCategories().then(categories =>
@@ -25,3 +32,12 @@ export const getComments = id => dispatch =>
   API.getAllComments(id).then(comments => dispatch(onGetComments(comments)));
 
 export const addPost = post => dispatch => API.createPost(post);
+
+export const onUpVotePost = id => dispatch =>
+  API.upVotePost(id).then(() => dispatch(upVotePost({ id })));
+
+export const onDownVotePost = id => dispatch =>
+  API.downVotePost(id).then(() => dispatch(downVotePost({ id })));
+
+export const onDeletePost = id => dispatch =>
+  API.deletePost(id).then(() => dispatch(deletePost({ id })));

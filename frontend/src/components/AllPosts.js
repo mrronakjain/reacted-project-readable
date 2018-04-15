@@ -2,6 +2,12 @@ import React, { Component } from "react";
 import { Button, Col, Dropdown, Icon, NavItem, Row } from "react-materialize";
 
 import {
+  onUpVotePost,
+  onDownVotePost,
+  onDeletePost
+} from "../utils/api_thunk_wrapper.js";
+
+import {
   sortByUpVotePosts,
   sortByDownVotePosts,
   sortByAscTimePosts,
@@ -11,6 +17,17 @@ import {
 import "./App.css";
 
 class AllPosts extends Component {
+  onDeletePostEvent = id => {
+    this.props.dispatch(onDeletePost(id));
+  };
+
+  onUpVotePostEvent = id => {
+    this.props.dispatch(onUpVotePost(id));
+  };
+
+  onDownVotePostEvent = id => {
+    this.props.dispatch(onDownVotePost(id));
+  };
   render() {
     return (
       <div>
@@ -91,12 +108,59 @@ class AllPosts extends Component {
                           </button>
                         </Col>
                       </Row>
-                      <p className="small">
-                        <Icon>person</Icon>
-                        &nbsp;{post.author}&nbsp;&nbsp;
-                        <Icon>access_time</Icon>
-                        &nbsp;{new Date(post.timestamp).toLocaleString()}
+                      <p className="row">
+                        <span className="left"><Icon left>person</Icon>
+                        &nbsp;{post.author}&nbsp;&nbsp;</span>
+                        <span className="left"><Icon left>access_time</Icon>
+						&nbsp;{new Date(post.timestamp).toLocaleString()}
+						</span>
                       </p>
+                      <div className="row">
+                        <button
+                          type="button"
+                          className="btn btn-black btn-small"
+                          onClick={() => this.onUpVotePostEvent(post.id)}
+                        >
+                          Upvote
+                          <Icon right>thumb_up</Icon>
+                        </button>
+                        &nbsp;
+                        <button
+                          type="button"
+                          className="btn btn-black btn-small"
+                          onClick={() => this.onDownVotePostEvent(post.id)}
+                        >
+                          Downvote
+                          <Icon right>thumb_down</Icon>
+                        </button>
+                        &nbsp;
+                        <button
+                          type="button"
+                          className="btn btn-black btn-small"
+                        >
+                          {this.props.comments.hasOwnProperty(post.id)
+                            ? this.props.comments[post.id].length
+                            : 0}
+                          <Icon right>comment</Icon>
+                        </button>
+                        <button
+                          type="button"
+                          className="btn btn-black btn-small right"
+                          onClick={() => this.onDeletePostEvent(post.id)}
+                        >
+                          Delete
+                          <Icon right>delete</Icon>
+                        </button>
+                        <span className="right">&nbsp;</span>
+                        <a
+                          href={`/editPost/${post.id}`}
+                          className="btn btn-black btn-small right"
+                          role="button"
+                        >
+                          Edit
+                          <Icon right>edit</Icon>
+                        </a>
+                      </div>
                     </li>
                     <hr />
                   </div>
