@@ -13,6 +13,7 @@ import Nav from "./Nav";
 import HomeView from "./HomeView";
 import AddPost from "./AddPost";
 import EditPost from "./EditPost";
+import CategoryPosts from "./CategoryPosts";
 
 class App extends Component {
   componentDidMount() {
@@ -49,6 +50,12 @@ class App extends Component {
         <Route
           path="/editPost/:id"
           render={({ match }) => <EditPost postId={match.params.id} />}
+        />
+        <Route
+          path="/:category/posts"
+          render={({ match }) => (
+            <CategoryPosts categoryName={match.params.category} />
+          )}
         />
       </div>
     );
