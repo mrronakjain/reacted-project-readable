@@ -102,18 +102,21 @@ class AllPosts extends Component {
                         <Col s={12} m={3}>
                           <button
                             className="btn btn-black btn-small pull-s2"
-                            readOnly
+                            disabled={true}
                           >
                             Vote Score : {post.voteScore}
                           </button>
                         </Col>
                       </Row>
                       <p className="row">
-                        <span className="left"><Icon left>person</Icon>
-                        &nbsp;{post.author}&nbsp;&nbsp;</span>
-                        <span className="left"><Icon left>access_time</Icon>
-						&nbsp;{new Date(post.timestamp).toLocaleString()}
-						</span>
+                        <span className="left">
+                          <Icon left>person</Icon>
+                          &nbsp;{post.author}&nbsp;&nbsp;
+                        </span>
+                        <span className="left">
+                          <Icon left>access_time</Icon>
+                          &nbsp;{new Date(post.timestamp).toLocaleString()}
+                        </span>
                       </p>
                       <div className="row">
                         <button
@@ -137,6 +140,7 @@ class AllPosts extends Component {
                         <button
                           type="button"
                           className="btn btn-black btn-small"
+						  disabled={true}
                         >
                           {this.props.comments.hasOwnProperty(post.id)
                             ? this.props.comments[post.id].length

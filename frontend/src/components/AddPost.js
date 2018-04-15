@@ -16,7 +16,7 @@ class AddPost extends Component {
     );
   };
 
-  handleSubmitPost = e => {
+  onSubmitPost = e => {
     e.preventDefault();
     const values = serializeForm(e.target, { hash: true });
     const post = {
@@ -45,7 +45,8 @@ class AddPost extends Component {
     return (
       <div className="container row">
         <div className="col m6">
-          <form onSubmit={this.handleSubmitPost}>
+          <h4>Add Post</h4>
+          <form onSubmit={this.onSubmitPost}>
             <div className="row">
               <div className="input-field col s12">
                 <input
@@ -91,7 +92,7 @@ class AddPost extends Component {
             <div className="row">
               <div className="input-field col s12">
                 <textarea
-                  id="author"
+                  id="body"
                   className="materialize-textarea"
                   name="body"
                 />

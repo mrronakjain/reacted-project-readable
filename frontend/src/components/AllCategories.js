@@ -28,7 +28,7 @@ export default function AllCategories(props) {
               </Col>
               <Col m={6} s={6}>
                 <a
-                  href={`/newPost`}
+                  href={`/addPost`}
                   className="btn btn-black"
                   role="button"
                   title="Add Post"
