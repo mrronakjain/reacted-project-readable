@@ -39,13 +39,12 @@ class EditPost extends Component {
       title: values.title,
       body: values.body
     };
-    console.log(postEdit);
     this.props.dispatch(editPost(this.props.post[0].id, postEdit));
     this.showSnackBar(
       Math.random()
         .toString(36)
         .substr(-8),
-      "Post Edit!"
+      "Post Updated!"
     );
   };
 

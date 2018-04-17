@@ -6,7 +6,12 @@ import {
   onGetComments,
   upVotePost,
   downVotePost,
-  deletePost
+  deletePost,
+  addComment,
+  upVoteComment,
+  downVoteComment,
+  deleteComment,
+  onGetComment
 } from "../actions";
 
 export const getCategories = () => dispatch =>
@@ -43,3 +48,23 @@ export const onDeletePost = id => dispatch =>
   API.deletePost(id).then(() => dispatch(deletePost({ id })));
 
 export const editPost = (id, post) => dispatch => API.editPost(id, post);
+
+export const onAddComment = comment => dispatch =>
+  API.createComment(comment).then(() => dispatch(addComment(comment)));
+
+export const onDeleteComment = (id, parentId) => dispatch =>
+  API.deleteComment(id).then(() => dispatch(deleteComment({ id, parentId })));
+
+export const onUpVoteComment = (id, parentId) => dispatch =>
+  API.upVoteComment(id).then(() => dispatch(upVoteComment({ id, parentId })));
+
+export const onDownVoteComment = (id, parentId) => dispatch =>
+  API.downVoteComment(id).then(() =>
+    dispatch(downVoteComment({ id, parentId }))
+  );
+
+export const onGetSingleComment = id => dispatch =>
+  API.getSingleComment(id).then(comment => dispatch(onGetComment(comment)));
+
+export const editComment = (id, comment) => dispatch =>
+  API.editComment(id, comment);

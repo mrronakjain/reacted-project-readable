@@ -1,13 +1,25 @@
 import React, { Component } from "react";
+import serializeForm from "form-serialize";
 import { showSnack } from "react-redux-snackbar";
-import { Icon } from "react-materialize";
+import { Button, Dropdown, Icon, NavItem } from "react-materialize";
 
 import {
   getComments,
   onUpVotePost,
   onDownVotePost,
-  onDeletePost
+  onDeletePost,
+  onAddComment,
+  onUpVoteComment,
+  onDownVoteComment,
+  onDeleteComment
 } from "../utils/api_thunk_wrapper.js";
+
+import {
+  sortByUpVoteComments,
+  sortByDownVoteComments,
+  sortByAscTimeComments,
+  sortByDescTimeComments
+} from "../actions";
 
 import "./App.css";
 
@@ -45,6 +57,50 @@ class Post extends Component {
     window.location.href = "/";
   };
 
+  onSubmitComment = postId => e => {
+    e.preventDefault();
+    const values = serializeForm(e.target, { hash: true });
+    const comment = {
+      id: Math.random()
+        .toString(36)
+        .substr(-8),
+      parentId: postId,
+      timestamp: Date.now(),
+      body: values.comment,
+      author: values.author,
+      voteScore: 1,
+      deleted: false,
+      parentDeleted: false
+    };
+    this.props.dispatch(onAddComment(comment));
+    this.showSnackBar(
+      Math.random()
+        .toString(36)
+        .substr(-8),
+      "Comment added!"
+    );
+    e.target.comment.value = "";
+    e.target.author.value = "";
+  };
+
+  onUpVoteCommentEvent = (id, parentId) => {
+    this.props.dispatch(onUpVoteComment(id, parentId));
+  };
+
+  onDownVoteCommentEvent = (id, parentId) => {
+    this.props.dispatch(onDownVoteComment(id, parentId));
+  };
+
+  onDeleteCommentEvent = (id, parentId) => {
+    this.props.dispatch(onDeleteComment(id, parentId));
+    this.showSnackBar(
+      Math.random()
+        .toString(36)
+        .substr(-8),
+      "Comment deleted!"
+    );
+  };
+
   render() {
     const postId = this.props.postId;
     return (
@@ -55,7 +111,7 @@ class Post extends Component {
               return (
                 <div key={post.id}>
                   <div className="container row">
-                    <div className="col m7">
+                    <div className="col m12">
                       <h3 className="teal-text lighten-2">{post.title}</h3>
                       <div className="row">
                         <div className="col m12">
@@ -131,8 +187,188 @@ class Post extends Component {
                         <div className="col m12">{post.body}</div>
                       </div>
                       <hr />
+                      <div className="card grey lighten-3">
+                        <div className="card-content">
+                          <h4 className="card-title">Leave a Comment:</h4>
+                          <form onSubmit={this.onSubmitComment(postId)}>
+                            <div className="row">
+                              <div className="input-field col s12">
+                                <input
+                                  id="author"
+                                  type="text"
+                                  className="validate"
+                                  name="author"
+                                  required
+                                />
+                                <label htmlFor="author">Author</label>
+                              </div>
+                            </div>
+                            <div className="row">
+                              <div className="input-field col s12">
+                                <textarea
+                                  id="comment"
+                                  className="materialize-textarea"
+                                  name="comment"
+                                />
+                                <label htmlFor="comment">Comment</label>
+                              </div>
+                            </div>
+                            <button className="btn btn-black">SUBMIT</button>
+                          </form>
+                        </div>
+                      </div>
                     </div>
-                    <div className="col m5" />
+                    {this.props.comment.hasOwnProperty(postId) && (
+                      <div className="col m12">
+                        <hr />
+                        <div className="row">
+                          <div className="col s12 m8 l8">
+                            <h5 className="teal-text lighten-2">Comments</h5>
+                          </div>
+                          <div className="col s12 m4 l4 right-align">
+                            <Dropdown
+                              trigger={
+                                <Button>
+                                  Sort By
+                                  <Icon right className="hide-on-small-only">
+                                    arrow_drop_down
+                                  </Icon>
+                                </Button>
+                              }
+                            >
+                              <NavItem
+                                onClick={() =>
+                                  this.props.dispatch(
+                                    sortByUpVoteComments({ parentId: post.id })
+                                  )
+                                }
+                              >
+                                UpVotes
+                              </NavItem>
+                              <NavItem
+                                onClick={() =>
+                                  this.props.dispatch(
+                                    sortByDownVoteComments({
+                                      parentId: post.id
+                                    })
+                                  )
+                                }
+                              >
+                                DownVotes
+                              </NavItem>
+                              <NavItem
+                                onClick={() =>
+                                  this.props.dispatch(
+                                    sortByAscTimeComments({ parentId: post.id })
+                                  )
+                                }
+                              >
+                                Asc Time
+                              </NavItem>
+                              <NavItem
+                                onClick={() =>
+                                  this.props.dispatch(
+                                    sortByDescTimeComments({
+                                      parentId: post.id
+                                    })
+                                  )
+                                }
+                              >
+                                Desc Time
+                              </NavItem>
+                            </Dropdown>
+                          </div>
+                        </div>
+                        <hr />
+                        <div>
+                          {this.props.comment[postId] &&
+                            this.props.comment[postId].map(comment => {
+                              if (!comment.deleted) {
+                                return (
+                                  <div className="media" key={comment.id}>
+                                    <a className="left" href="">
+                                      <img
+                                        className="media-object circle"
+                                        src="http://placehold.it/64x64"
+                                        alt=""
+                                      />
+                                    </a>
+                                    <div className="media-body">
+                                      <h5 className="media-heading">
+                                        {comment.author}
+                                        <small className="right">
+                                          {new Date(
+                                            comment.timestamp
+                                          ).toLocaleString()}
+                                        </small>
+                                      </h5>
+                                      <p>{comment.body}</p>
+                                      <div className="row">
+                                        <div className="col m12">
+                                          <button
+                                            className="btn btn-black btn-small pull-s2"
+                                            disabled={true}
+                                          >
+                                            Vote Score : {comment.voteScore}
+                                          </button>
+                                          <span>&nbsp;</span>
+                                          <button
+                                            type="button"
+                                            className="btn btn-black btn-small"
+                                            onClick={() =>
+                                              this.onUpVoteCommentEvent(
+                                                comment.id,
+                                                postId
+                                              )
+                                            }
+                                          >
+                                            <Icon>thumb_up</Icon>
+                                          </button>
+                                          <span>&nbsp;</span>
+                                          <button
+                                            type="button"
+                                            className="btn btn-black btn-small"
+                                            onClick={() =>
+                                              this.onDownVoteCommentEvent(
+                                                comment.id,
+                                                postId
+                                              )
+                                            }
+                                          >
+                                            <Icon>thumb_down</Icon>
+                                          </button>
+                                          <button
+                                            type="button"
+                                            className="btn btn-black btn-small right"
+                                            onClick={() =>
+                                              this.onDeleteCommentEvent(
+                                                comment.id,
+                                                postId
+                                              )
+                                            }
+                                          >
+                                            <Icon>delete</Icon>
+                                          </button>
+                                          <span className="right">&nbsp;</span>
+                                          <a
+                                            href={`/editComment/${comment.id}`}
+                                            className="btn btn-black btn-small right"
+                                            role="button"
+                                          >
+                                            <Icon>edit</Icon>
+                                          </a>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <hr />
+                                  </div>
+                                );
+                              }
+                              return null;
+                            })}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               );

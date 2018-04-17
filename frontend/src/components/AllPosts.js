@@ -140,7 +140,7 @@ class AllPosts extends Component {
                         <button
                           type="button"
                           className="btn btn-black btn-small"
-						  disabled={true}
+                          disabled={true}
                         >
                           {this.props.comments.hasOwnProperty(post.id)
                             ? this.props.comments[post.id].length
