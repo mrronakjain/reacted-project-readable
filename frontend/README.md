@@ -68,7 +68,7 @@ All Post comments are displayed with author, current score, and users can upvote
 
 #### Add Post View
 
-Add Post is available at /newPost
+Add Post is available at /addPost
 A form for creating a new post with title, author, category, body.
 Post is added to specified category and
 
